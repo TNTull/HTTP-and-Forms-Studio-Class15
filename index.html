@@ -1,19 +1,62 @@
 <!doctype html>
 
 <head>
-	<meta charset="utf-8">
-	<script>
-		// TODO: create a handler
-    window.addEventListener("load", function(){
+    <meta charset="utf-8">
+    <script>
+        function setSearchEngine(){
+            //console.log("we made it");
+            let form = document.getElementById("searchform");
+            
+            let selectedRadio = document.querySelector("input[name=engine]:checked");
+             //bonus mission: check that a radio button is selected 
+            if (selectedRadio === null) {
+                event.preventDefault();
+                alert("Invalid search engine selection");
+                return;
+            }
+            let selectedSearchEngine = selectedRadio.value;
+            let actions = {
+                "google": "https://www.google.com/",
+                "duckDuckGo": " https://duckduckgo.com/",
+                "bing": "https://www.bing.com/search",
+                "ask": "https://www.ask.com/web",
+            };
+            let actionUrl = actions[selectedSearchEngine];
+            //bonus mission: check that a radio button has a valid action
+            if (actionUrl === undefined) {
+                event.preventDefault();
+                alert("Invalid search engine selection");
+                return;
+            }
+            //bonus mission: check that a search term was entered in the textbox
+            let searchTerm = document.querySelector("input[name=q]").vlaue;
+            if (searchTerm.trim() === "") {
+                event.preventDefault();
+                alert("Please enter a search term");
+                return;
+            } 
+
+            form.setAttribute("action", actionUrl);
+        }
+        // TODO: create a handler
+    window.addEventListener("load", function() {
         // TODO: register the handler
+        let form = document.getElementById("searchform"); // querySelector("#searchForm");
+        form.addEventListener("submit", setSearchEngine); // this will call the function
     });
-	</script>
+    </script>
 </head>
 
 <body>
 
-	<form id="searchForm">
+    <form id="searchForm">
     <!-- TODO: add form elements -->
-	</form>
+    <input type="text" name="q"></input>
+    <label>Google <input type="radio" name="engine" value="google" /></label>
+    <label>DuckDuckGo <input type="radio" name="engine" value="duckDuckGo" /></label>
+    <label>Bing<input type="radio" name="engine" value="bing" /></label>
+    <label>Ask<input type="radio" name="engine" value="ask" /></label>
+    <button id="go">Go!</button>
+    </form>
 
 </body>
